@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 import { Button, Form } from 'semantic-ui-react';
 
-function Register() {
+function Register(props) {
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     username: '',
@@ -21,8 +21,8 @@ function Register() {
   };
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, result) {
-      console.log(result);
+    update(_, result) {
+      props.history.push('/');
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -34,20 +34,44 @@ function Register() {
     e.preventDefault();
     addUser();
   };
-
   return (
     <div className="form-container">
       <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
         <h1>Register</h1>
-        <Form.Input label="Username" placeholder="Enter username" name="username" type="text" value={values.username} onChange={onChange} />
-        <Form.Input label="Email" placeholder="Enter email" name="email" type="email" value={values.email} onChange={onChange} />
-        <Form.Input label="Password" placeholder="Enter password" name="password" type="password" value={values.password} onChange={onChange} />
+        <Form.Input
+          label="Username"
+          placeholder="Enter username"
+          name="username"
+          type="text"
+          value={values.username}
+          error={errors.username ? true : false}
+          onChange={onChange}
+        />
+        <Form.Input
+          label="Email"
+          placeholder="Enter email"
+          name="email"
+          type="email"
+          value={values.email}
+          error={errors.email ? true : false}
+          onChange={onChange}
+        />
+        <Form.Input
+          label="Password"
+          placeholder="Enter password"
+          name="password"
+          type="password"
+          value={values.password}
+          error={errors.password ? true : false}
+          onChange={onChange}
+        />
         <Form.Input
           label="Confirm Password"
           placeholder="Confirm password"
           name="confirmPassword"
           type="password"
           value={values.confirmPassword}
+          error={errors.confirmPassword ? true : false}
           onChange={onChange}
         />
         <Button type="submit" primary>

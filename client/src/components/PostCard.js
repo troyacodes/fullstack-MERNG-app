@@ -11,7 +11,6 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
   function commentOnPost() {
     console.log('Post Comment');
   }
-
   return (
     <Card fluid>
       <Card.Content>
@@ -45,6 +44,5 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
     </Card>
   );
 }
-
 
 export default PostCard;
