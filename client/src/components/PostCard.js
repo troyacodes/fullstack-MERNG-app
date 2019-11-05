@@ -46,4 +46,5 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
   );
 }
 
+
 export default PostCard;
