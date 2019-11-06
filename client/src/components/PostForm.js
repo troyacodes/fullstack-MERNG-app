@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import gql from 'graphql-tag';
 import { FETCH_POSTS_QUERY } from '../util/grapql';
 import { useMutation } from '@apollo/react-hooks';
@@ -29,17 +29,25 @@ function PostForm() {
   function createPostCallback() {
     createPost();
   }
-
   return (
-    <Form onSubmit={onSubmit}>
-      <h2>Create a post</h2>
-      <Form.Field>
-        <Form.Input placeholder="Write anything you'd like" name="body" onChange={onChange} value={values.body} />
-        <Button type="submit" color="red">
-          Submit
-        </Button>
-      </Form.Field>
-    </Form>
+    <Fragment>
+      <Form onSubmit={onSubmit}>
+        <h2>Create a post</h2>
+        <Form.Field>
+          <Form.Input placeholder="Write anything you'd like" name="body" onChange={onChange} value={values.body} error={error ? true : false} />
+          <Button type="submit" color="red">
+            Submit
+          </Button>
+        </Form.Field>
+      </Form>
+      {error && (
+        <div className="ui error message">
+          <ul className="list">
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </Fragment>
   );
 }
 

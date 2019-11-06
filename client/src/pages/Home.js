@@ -5,7 +5,7 @@ import { AuthContext } from '../context/auth';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, TransitionGroup } from 'semantic-ui-react';
 
 function Home() {
   const { user } = useContext(AuthContext);
@@ -27,12 +27,14 @@ function Home() {
       {loading ? (
         <h1>Loading posts..</h1>
       ) : (
-        posts.data &&
-        posts.data.map(post => (
-          <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-            <PostCard post={post} />
-          </Grid.Column>
-        ))
+        <TransitionGroup>
+          {posts.data &&
+            posts.data.map(post => (
+              <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                <PostCard post={post} />
+              </Grid.Column>
+            ))}
+        </TransitionGroup>
       )}
       <Grid.Row></Grid.Row>
     </Grid>
