@@ -15,28 +15,57 @@ function Home() {
     posts = { data: data.getPosts };
   }
   return (
-    <Grid columns={3}>
+    <Grid>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
       </Grid.Row>
-      {user && (
-        <Grid.Column>
-          <PostForm />
-        </Grid.Column>
-      )}
-      {loading ? (
-        <h1>Loading posts..</h1>
+
+      {user ? (
+        <Grid.Row>
+          <Grid.Column width={4}>
+            <PostForm />
+          </Grid.Column>
+          <Grid.Column width={12}>
+            <Grid columns={2}>
+              <Grid.Row>
+                {loading ? (
+                  <h1>Loading posts..</h1>
+                ) : (
+                  <TransitionGroup>
+                    {posts.data &&
+                      posts.data.map(post => (
+                        <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                          <PostCard post={post} />
+                        </Grid.Column>
+                      ))}
+                  </TransitionGroup>
+                )}
+              </Grid.Row>
+            </Grid>
+          </Grid.Column>
+        </Grid.Row>
       ) : (
-        <TransitionGroup>
-          {posts.data &&
-            posts.data.map(post => (
-              <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-                <PostCard post={post} />
-              </Grid.Column>
-            ))}
-        </TransitionGroup>
+        <Grid.Row>
+          <Grid.Column>
+            <Grid columns={3}>
+              <Grid.Row>
+                {loading ? (
+                  <h1>Loading posts..</h1>
+                ) : (
+                  <TransitionGroup>
+                    {posts.data &&
+                      posts.data.map(post => (
+                        <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                          <PostCard post={post} />
+                        </Grid.Column>
+                      ))}
+                  </TransitionGroup>
+                )}
+              </Grid.Row>
+            </Grid>
+          </Grid.Column>
+        </Grid.Row>
       )}
-      <Grid.Row></Grid.Row>
     </Grid>
   );
 }
